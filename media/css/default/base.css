@@ -20,8 +20,10 @@ body {
     color: #f55;
 }
 
-#container {
-    height: 100%;
+#map-canvas {
+    float: left;
+    width: 50%; 
+    height: 70%;
 }
 
 #footer {
@@ -34,26 +36,23 @@ body {
 }
 
 #lcol {
+    width: 300px;
     float: left;
-}
-
-#map-canvas {
-    float: right;
-    width: 50%; 
-    height: 70%;
+    padding: 0px 10px 20px 10px;
 }
 
 #store-list {
+    width: 300px;
     float: left;
-    padding: 0px 0px 0px 10px;
+    padding: 0px 10px 20px 10px;
 }
 
 .subtitle {
-    padding: 0px 0px 10px 10px;
+    padding: 0px 0px 0px 5px;
     font-weight: normal;
 }
 
 .description {
-    padding: 0px 0px 0px 10px;
+    padding: 0px 0px 0px 5px;
     font-style: italic;
 }
