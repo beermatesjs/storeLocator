@@ -1,0 +1,69 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+<style type="text/css"> 
+  html { height: 100% }
+  body { height: 100% }
+</style>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> 
+<script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
+<script>
+  var stores = [];
+  var settings = {};
+
+  function loadStores(root) {
+    var feed = root.feed;
+    stores = feed.entry || [];
+  }
+
+  function loadSettings(root) {
+    var feed = root.feed;
+    var entries = feed.entry || [];
+    for (var i = 0; i < entries.length; ++i) {
+      var entry = entries[i];
+      settings[entry.title.$t] = entry.gsx$value.$t
+    }
+  }
+ 
+  function initialize() {
+	var center = new google.maps.LatLng(parseFloat(settings["Starting Center Latitude"]), parseFloat(settings["Starting Center Longitude"]));
+    var mapOptions = {
+      zoom: parseInt(settings["Starting Zoom"]),
+      center: center,
+      mapTypeId: eval("google.maps.MapTypeId." + settings["Map Type"])
+    };
+
+    var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
+	// Load markers
+	var markers = [];
+	var markerListHtml = ["<ul>"];
+	for (var i = 0; i < stores.length; ++i) {
+      var store = stores[i];
+      var name = store.gsx$storename.$t;
+      var lat = parseFloat(store.gsx$latitude.$t);
+      var lng = parseFloat(store.gsx$longitude.$t);
+
+      var latlng = new google.maps.LatLng(lat, lng);
+      var marker = new google.maps.Marker({
+        position: latlng,
+        map: map,
+        title: name
+      });
+      markerListHtml.push("<li>", name, "</li>");
+      markers.push(marker);
+    }
+    markerListHtml.push("</ul>");
+    document.getElementById("store-list").innerHTML = markerListHtml.join("");
+    var markerCluster = new MarkerClusterer(map, markers, {maxZoom: parseInt(settings["Marker Cluster Zoom"])});
+  }
+</script> 
+</head> 
+<body onload="initialize()">
+  <h1>Store Locator</h1>
+  <div id="store-list" style="float: left"></div>
+  <div id="map-canvas" style="width:50%; height:70%; float: right"></div>
+  <script src="http://spreadsheets.google.com/feeds/list/0AtCvGbW6v202dF90eDZSamUtelg1Z1pvVFA4Q3RRRlE/od6/public/values?alt=json-in-script&callback=loadStores"></script>
+  <script src="http://spreadsheets.google.com/feeds/list/0AtCvGbW6v202dF90eDZSamUtelg1Z1pvVFA4Q3RRRlE/od7/public/values?alt=json-in-script&callback=loadSettings"></script>
+</body> 
+</html>
