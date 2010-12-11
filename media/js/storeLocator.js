@@ -50,6 +50,11 @@ function initialize() {
               title: name,
               marker: marker
         });
+        
+        if ( i === 0) {
+            activeInfoWindow = infoWindow;
+            infoWindow.open(marker.map, marker);
+        }
         (function(marker, infoWindow, i) {
             google.maps.event.addListener(marker, 'click', function() {
                 if (activeInfoWindow != undefined) {
@@ -76,6 +81,8 @@ function writeAccordion(store) {
 $(document).ready(function() {
     initialize();
     $(function() {
+        $('#lcol h2').append(settings["Site Title"]);
+        $('#lcol p').append(settings["Site Description"]);
         $("#store-list").draggable();
         $("#accordion").accordion({ 
             header: "h3",

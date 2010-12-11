@@ -24,6 +24,7 @@ body {
     float: left;
     width: 50%; 
     height: 70%;
+    margin: 0px 10px 20px 10px;
 }
 
 #footer {
@@ -33,11 +34,10 @@ body {
     font-size: 0.8em;
     padding: 10px;
     width: 250px;
+    margin-left: 10px;
 }
 
 #lcol {
-    width: 300px;
-    float: left;
     padding: 0px 10px 20px 10px;
 }
 
