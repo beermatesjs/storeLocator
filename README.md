@@ -9,3 +9,7 @@ A simple way for businesses to list their stores using Google Docs, without havi
 * Google Account
 
 * Nothing else if you decide to stick with the barebones.
+
+## further instructions ##
+
+See HOWTO for a quick overview.
