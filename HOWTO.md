@@ -15,3 +15,8 @@ Required fields in stores:
 * Lat
 
 * Lng
+
+
+### Settings ###
+
+* 

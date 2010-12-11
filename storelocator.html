@@ -10,82 +10,11 @@
 <!-- google map api requirements -->
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> 
 <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
-<script>
-  var stores = [];
-  var settings = {};
-
-  function loadStores(root) {
-    var feed = root.feed;
-    stores = feed.entry || [];
-  }
-
-  function loadSettings(root) {
-    var feed = root.feed;
-    var entries = feed.entry || [];
-    for (var i = 0; i < entries.length; ++i) {
-      var entry = entries[i];
-      settings[entry.title.$t] = entry.gsx$value.$t
-    }
-  }
- 
-  function initialize() {
-	var center = new google.maps.LatLng(parseFloat(settings["Starting Center Latitude"]), parseFloat(settings["Starting Center Longitude"]));
-    var mapOptions = {
-      zoom: parseInt(settings["Starting Zoom"]),
-      center: center,
-      mapTypeId: eval("google.maps.MapTypeId." + settings["Map Type"])
-    };
-
-    var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-
-	// Load markers
-	var markers = [];
-	for (var i = 0; i < stores.length; ++i) {
-      var store = stores[i];
-      writeAccordion(store);
-      
-      var name = store.gsx$storename.$t;
-      var address = store.gsx$address.$t;
-      var lat = parseFloat(store.gsx$latitude.$t);
-      var lng = parseFloat(store.gsx$longitude.$t);
-
-      var latlng = new google.maps.LatLng(lat, lng);
-      var marker = new google.maps.Marker({
-        position: latlng,
-        map: map,
-        title: name
-      });
-      (function(marker,name) {
-          google.maps.event.addListener(marker, 'click', function() {
-              var infoWindow = new google.maps.InfoWindow({
-                  position: marker.position,
-                  content: name
-                });
-              infoWindow.open(marker.map);
-          });
-      })(marker,name)
-      markers.push(marker);
-    }
-    var markerCluster = new MarkerClusterer(map, markers, {maxZoom: parseInt(settings["Marker Cluster Zoom"])});
-  }
-  
-  // writes store information
-  function writeAccordion(store) {
-      var name = store.gsx$storename.$t;
-      var address = store.gsx$address.$t;
-      $('#accordion').append('<h3><a href="#">' + name + '</a></h3><div><p>' + address);
-  }
-  
-  $(document).ready(function() {
-      initialize();
-      $(function() {
-          $("#store-list").draggable();
-          $("#accordion").accordion({ header: "h3" });
-      });
-  });
-</script> 
+<!-- storeLocator.js -->
+<script type="text/javascript" src="media/js/storeLocator.js"></script>
 </head> 
 <body>
+    <!-- change with your own company logo -->
   <h1><img src="media/images/default/company_logo.png" alt="Your Company Logo" /></h1>
   <div id="container">
       <div id="lcol">
@@ -95,7 +24,7 @@
               <div id="accordion"></div>
           </div>
       </div>
-      <div id="map-canvas" style="width:50%; height:70%; float: right"></div>
+      <div id="map-canvas"></div>
   </div>
   <!-- include copyright...etc info for your company -->
   <div id="footer">StoreLocator lives at Github and Bitbucket.</div>

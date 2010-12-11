@@ -6,4 +6,8 @@
 
 * Add in helper library
 
-* Auto zoom
+* Auto zoom around markers
+
+* Geocoding for addresses without latlng information
+
+

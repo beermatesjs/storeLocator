@@ -8,8 +8,11 @@ body {
     font-size: 14px;
 }
 
-#accordion h3 a {
+#accordion {
     font-size: 12px;
+}
+
+#accordion h3 a {
     font-weight: bold;
 }
 
@@ -22,17 +25,22 @@ body {
 }
 
 #footer {
+    background: #000;
+    color: #fff;
     clear: both;
     font-size: 0.8em;
     padding: 10px;
+    width: 250px;
 }
 
 #lcol {
     float: left;
 }
 
-#rcol {
+#map-canvas {
     float: right;
+    width: 50%; 
+    height: 70%;
 }
 
 #store-list {
