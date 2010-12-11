@@ -1,0 +1,51 @@
+/* you can use the styling here as a guide */
+html { height:100%; }
+
+body {
+    background: url("../../images/default/grid_bg.gif") repeat;
+    height: 100%;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14px;
+}
+
+#accordion h3 a {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.ui-state-active a:link {
+    color: #f55;
+}
+
+#container {
+    height: 100%;
+}
+
+#footer {
+    clear: both;
+    font-size: 0.8em;
+    padding: 10px;
+}
+
+#lcol {
+    float: left;
+}
+
+#rcol {
+    float: right;
+}
+
+#store-list {
+    float: left;
+    padding: 0px 0px 0px 10px;
+}
+
+.subtitle {
+    padding: 0px 0px 10px 10px;
+    font-weight: normal;
+}
+
+.description {
+    padding: 0px 0px 0px 10px;
+    font-style: italic;
+}

@@ -1,10 +1,13 @@
 <!DOCTYPE html> 
 <html> 
 <head>
-<style type="text/css"> 
-  html { height: 100% }
-  body { height: 100% }
-</style>
+<!-- styles -->
+<link type="text/css" href="media/css/smoothness/jquery-ui-1.8.7.custom.css" rel="stylesheet" />
+<link href="media/css/default/base.css" rel="stylesheet" type="text/css" />
+<!-- external js libraries -->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js"></script>
+<!-- google map api requirements -->
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> 
 <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
 <script>
@@ -37,10 +40,12 @@
 
 	// Load markers
 	var markers = [];
-	var markerListHtml = ["<ul>"];
 	for (var i = 0; i < stores.length; ++i) {
       var store = stores[i];
+      writeAccordion(store);
+      
       var name = store.gsx$storename.$t;
+      var address = store.gsx$address.$t;
       var lat = parseFloat(store.gsx$latitude.$t);
       var lng = parseFloat(store.gsx$longitude.$t);
 
@@ -50,19 +55,50 @@
         map: map,
         title: name
       });
-      markerListHtml.push("<li>", name, "</li>");
+      (function(marker,name) {
+          google.maps.event.addListener(marker, 'click', function() {
+              var infoWindow = new google.maps.InfoWindow({
+                  position: marker.position,
+                  content: name
+                });
+              infoWindow.open(marker.map);
+          });
+      })(marker,name)
       markers.push(marker);
     }
-    markerListHtml.push("</ul>");
-    document.getElementById("store-list").innerHTML = markerListHtml.join("");
     var markerCluster = new MarkerClusterer(map, markers, {maxZoom: parseInt(settings["Marker Cluster Zoom"])});
   }
+  
+  // writes store information
+  function writeAccordion(store) {
+      var name = store.gsx$storename.$t;
+      var address = store.gsx$address.$t;
+      $('#accordion').append('<h3><a href="#">' + name + '</a></h3><div><p>' + address);
+  }
+  
+  $(document).ready(function() {
+      initialize();
+      $(function() {
+          $("#store-list").draggable();
+          $("#accordion").accordion({ header: "h3" });
+      });
+  });
 </script> 
 </head> 
-<body onload="initialize()">
-  <h1>Store Locator</h1>
-  <div id="store-list" style="float: left"></div>
-  <div id="map-canvas" style="width:50%; height:70%; float: right"></div>
+<body>
+  <h1><img src="media/images/default/company_logo.png" alt="Your Company Logo" /></h1>
+  <div id="container">
+      <div id="lcol">
+          <h2 class="subtitle">My Stores</h2>
+          <p class="description">Description of your store can go here.</p>
+          <div id="store-list">
+              <div id="accordion"></div>
+          </div>
+      </div>
+      <div id="map-canvas" style="width:50%; height:70%; float: right"></div>
+  </div>
+  <!-- include copyright...etc info for your company -->
+  <div id="footer">StoreLocator lives at Github and Bitbucket.</div>
   <script src="http://spreadsheets.google.com/feeds/list/0AtCvGbW6v202dF90eDZSamUtelg1Z1pvVFA4Q3RRRlE/od6/public/values?alt=json-in-script&callback=loadStores"></script>
   <script src="http://spreadsheets.google.com/feeds/list/0AtCvGbW6v202dF90eDZSamUtelg1Z1pvVFA4Q3RRRlE/od7/public/values?alt=json-in-script&callback=loadSettings"></script>
 </body> 
